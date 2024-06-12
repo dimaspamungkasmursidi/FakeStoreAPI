@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* background-color: #1d1d1d; */
+    color: white;
+    font-family: "titillium web", sans-serif;
+    letter-spacing: 1px;
+}
+
+
+/* GOOGLE FONT */
+.londrina-regular {
+    font-family: "Londrina Solid", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .londrina-black {
+    font-family: "Londrina Solid", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+  }
+  
