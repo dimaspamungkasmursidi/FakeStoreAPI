@@ -4,11 +4,22 @@ import Button from "../../atoms/Button/Button";
 import Circle from "../../atoms/Shapes/Circle";
 import Loading from "../../atoms/Catch/Loading";
 import Title from "../../atoms/Title/Title";
+import Modal from "../Modals/Modal";
 
 export default function Category() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const name = localStorage.getItem("name");
+
+  const handleShopNow = () => {
+    if (!name) {
+      setIsModalOpen(true);
+    } else {
+      window.location.href = "/product";
+    }
+  };
 
   async function fetchCategories() {
     const apiUrl = "https://fakestoreapi.com/products/categories";
@@ -84,12 +95,11 @@ export default function Category() {
               </p>
             </div>
             <div className="mt-4">
-              <Link to="/Product">
-              <Button>Shop Now</Button>
-              </Link>
+              <Button onClick={handleShopNow}>Shop Now</Button>
             </div>
           </div>
         ))}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </div>
 
       <div className="flex items-center justify-center"></div>

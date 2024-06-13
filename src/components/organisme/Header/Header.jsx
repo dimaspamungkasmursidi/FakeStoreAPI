@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import Button from "../../atoms/Button/Button";
 
-const name = localStorage.getItem("name");
-
-export default function Header() {
+const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dropdownRef = useRef(null);
   const menuIconRef = useRef(null);
   const closeIconRef = useRef(null);
+  const name = localStorage.getItem("name");
 
   useEffect(() => {
     gsap.fromTo(
@@ -17,7 +17,10 @@ export default function Header() {
       { opacity: 0, y: -50 },
       { opacity: 1, y: 0, duration: 2, ease: "power3.out" }
     );
-  }, []);
+    if (name) {
+      setIsLoggedIn(true);
+    }
+  }, [name]);
 
   useEffect(() => {
     if (dropdownOpen) {
@@ -48,7 +51,6 @@ export default function Header() {
     }
   }, [dropdownOpen]);
 
-
   const handleLogout = () => {
     localStorage.removeItem("name");
     window.location.href = "/";
@@ -58,15 +60,27 @@ export default function Header() {
     <header className="z-50">
       <div className="navbar flex justify-between items-center backdrop-blur-md bg-gradient-to-r from-slate-300 to-primary px-4 md:px-8">
         {/* PROFILE */}
-          <div className="flex items-center gap-2">
-            <img
-              src="https://akcdn.detik.net.id/customthumb/2014/08/07/398/fportraitrotated_and_cropped_1_.jpg?w=700&q=90"
-              alt="Profile"
-              className="w-12 h-12 rounded-full"
-            />
-            <span className="hidden md:block text-lg londrina-regular bg-gradient-to-l from-slate-900 to-50% to-primary text-transparent bg-clip-text">Hi, {name}..</span>
-            <span className="md:hidden text-lg londrina-regular bg-gradient-to-l from-slate-900 to-50% to-primary text-transparent bg-clip-text">Hi, {name.substring(0, 7)}..</span>
-          </div>
+        <div>
+          {!isLoggedIn ? (
+            <Link to="/register">
+              <Button>Register</Button>
+            </Link>
+          ) : (
+            <div className="flex items-center gap-2">
+              <img
+                src="https://akcdn.detik.net.id/customthumb/2014/08/07/398/fportraitrotated_and_cropped_1_.jpg?w=700&q=90"
+                alt="Profile"
+                className="w-12 h-12 rounded-full"
+              />
+              <span className="hidden md:block text-lg londrina-regular bg-gradient-to-l from-slate-900 to-50% to-primary text-transparent bg-clip-text">
+                Hi, {name}..
+              </span>
+              <span className="md:hidden text-lg londrina-regular bg-gradient-to-l from-slate-900 to-50% to-primary text-transparent bg-clip-text">
+                Hi, {name.substring(0, 7)}..
+              </span>
+            </div>
+          )}
+        </div>
 
         {/* CART */}
         <div className="flex-none gap-2">
@@ -92,7 +106,7 @@ export default function Header() {
                   />
                 </svg>
                 <span className="badge badge-sm indicator-item bg-primary text-white">
-                  8
+                  Soon
                 </span>
               </summary>
             </div>
@@ -156,7 +170,7 @@ export default function Header() {
           className="dropdown-content absolute right-1 md:right-[2rem] mt-[14rem] md:mt-[14.5rem] bg-gradient-to-r from-slate-400 from-4% to-primary to-90% shadow-lg rounded-md overflow-hidden"
           style={{ display: dropdownOpen ? "block" : "none" }}
         >
-          <Link to="/home" className="block px-4 py-2 hover:bg-primary">
+          <Link to="/" className="block px-4 py-2 hover:bg-primary">
             Home
           </Link>
           <Link to="/product" className="block px-4 py-2 hover:bg-primary">
@@ -165,9 +179,16 @@ export default function Header() {
           <Link to="/about" className="block px-4 py-2 hover:bg-primary">
             About
           </Link>
-          <Button variant="bg-gradient-to-r from-slate-400 from-4% to-red-700 to-90% transform transition duration-500 hover:scale-110 shadow-lg" onClick={handleLogout}>Logout</Button>
+          <Button
+            variant="bg-gradient-to-r from-slate-400 from-4% to-red-700 to-90% transform transition duration-500 hover:scale-110 shadow-lg"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </div>
       </div>
     </header>
   );
-}
+};
+
+export default Header;

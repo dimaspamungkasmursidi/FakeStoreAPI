@@ -1,3 +1,4 @@
+import BackToTop from "../components/atoms/Button/BackToTop";
 import Footer from "../components/organisme/Footer/Footer";
 import Header from "../components/organisme/Header/Header";
 import Category from "../components/organisme/Home/Category";
@@ -10,6 +11,7 @@ export default function Home() {
     <Header />
     <Hero />
     <Category />
+    <BackToTop />
     <Footer />
     </>
   );
